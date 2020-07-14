@@ -11,7 +11,7 @@ function Login(props) {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const { setAuthTokens } = useAuth();
-  const referer = props.location.state.referer || '/';
+  //const referer = props.location.state.referer || '/';
 
     const data = {
         email: userName,
@@ -35,7 +35,7 @@ function Login(props) {
   }
 
   if (isLoggedIn) {
-    return <Redirect to={referer} />;
+    return <Redirect to="/" />;
   }
 
   return (
