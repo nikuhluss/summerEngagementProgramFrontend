@@ -7,6 +7,7 @@ function Admin(props) {
 
   function logOut() {
     setAuthTokens();
+    localStorage.setItem('email',undefined);
   }
 
   return (

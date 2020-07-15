@@ -24,7 +24,22 @@ function Login(props) {
     ).then(result => {
       if (result.status === 200) {
         setAuthTokens(result.data);
+        getUserByEmail(data.email);
         setLoggedIn(true);
+      } else {
+        setIsError(true);
+      }
+    }).catch(e => {
+        console.log(e);
+      setIsError(true);
+    });
+  }
+
+  function getUserByEmail(email){
+    axios.get("https://localhost:44366/api/Users/getUsersByEmail/"+email, 
+    ).then(result => {
+      if (result.status === 200) {
+        localStorage.setItem('email',result.data.email);
       } else {
         setIsError(true);
       }
