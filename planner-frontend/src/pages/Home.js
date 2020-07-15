@@ -1,53 +1,37 @@
 import React from "react";
 import { Button, Nav, Hero, Container, Title, SubTitle, Level, Image } from 'reactbulma';
-import logo from "../img/paycom-logo-color-clear.png";
 import { Redirect, NavLink } from "react-router-dom";
+import PlannerNavBar from "../components/navbar";
+import EventCard from "../components/eventCard";
 
 
 function Home(props) {
   return (
-    <nav className="navbar" role="navigation" aria-label="main navigation">
-      <div className="navbar-brand">
-        <NavLink to="/admin">
-          
-          <img src={logo} alt="Paycom" width="112" height="28" />
-          
-        </NavLink>
-        
-        <a role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
-        
-      </div>
-      <div className="navbar-menu">
-        <div className="navbar-start">
-          <NavLink to="/" className="navbar-item">
-            Home
-          </NavLink>
-          <NavLink to="/events" className="navbar-item">
-            Events
-          </NavLink>
-          <div className="navbar-item has-dropdown is-hoverable">
-            <a className="navbar-link">
-              More
-            </a>
-            <div className="navbar-dropdown">
-              <NavLink to="/events/userid" className="navbar-item">
-                Your Events
-              </NavLink>
-              <NavLink to="/events/explore" className="navbar-item">
-                Explore Events
-              </NavLink>
-              <NavLink to="/events/newevent" className="navbar-item">
-                Create an Event
-              </NavLink>
+    <div className="container">
+      
+
+      
+      <PlannerNavBar/>
+      <div className="columns">
+        <div className="column">
+          <div className="tile is-ancestor mt-5">
+            <div className="tile is-vertical is-parent">
+              <div className="tile is-child box">
+                <p className="title">Event's You're Attending</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.</p>
+              </div>
+              <div className="tile is-child box">
+                <p className="title">Create A New Event</p>
+                <button className="button is-primary">Create Event</button>
+              </div>
             </div>
           </div>
         </div>
+        
+          <EventCard/>
+        
       </div>
-    </nav>
+    </div>
   );
 }
 
