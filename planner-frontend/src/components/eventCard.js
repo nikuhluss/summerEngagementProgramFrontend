@@ -29,7 +29,7 @@ function EventCard (){
             setIsLoaded(true);
             setError(true);
         });
-      }, [])
+      }, [items])
     
     if (error) {
     return <div>Error: {error.message}</div>;

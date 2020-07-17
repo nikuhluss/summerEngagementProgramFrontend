@@ -1,11 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
+import ReactDOM from "react-dom";
 import { Button, Nav, Hero, Container, Title, SubTitle, Level, Image } from 'reactbulma';
 import { Redirect, NavLink } from "react-router-dom";
 import PlannerNavBar from "../components/navbar";
 import EventCard from "../components/eventCard";
+import BaseModal from "../components/BaseModal";
+import EventForm from "../components/EventForm";
 
 
 function Home(props) {
+  const [eventModalState, setEventModal] = useState(false);
+
+  const showEventModal = () =>{
+    setEventModal(true);
+  }
+
+  const hideEventModal = () =>{
+    setEventModal(false);
+  }
+
   return (
     <div className="container">
       
@@ -22,7 +35,7 @@ function Home(props) {
               </div>
               <div className="tile is-child box">
                 <p className="title">Create A New Event</p>
-                <button className="button is-primary">Create Event</button>
+                <button className="button is-primary" onClick={showEventModal}>Create Event</button>
               </div>
             </div>
           </div>
@@ -31,6 +44,9 @@ function Home(props) {
           <EventCard/>
         
       </div>
+      <BaseModal show={eventModalState} handleClose={hideEventModal}>
+        <EventForm handleClose={hideEventModal}/>
+      </BaseModal>
     </div>
   );
 }

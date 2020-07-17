@@ -37,9 +37,6 @@ function PlannerNavBar(){
                   <NavLink to="/events/explore" className="navbar-item">
                     Explore Events
                   </NavLink>
-                  <NavLink to="/events/newevent" className="navbar-item">
-                    Create an Event
-                  </NavLink>
                 </div>
               </div>
             </div>

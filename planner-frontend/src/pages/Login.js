@@ -40,6 +40,7 @@ function Login(props) {
     ).then(result => {
       if (result.status === 200) {
         localStorage.setItem('email',result.data.email);
+        localStorage.setItem('userID',result.data.id)
       } else {
         setIsError(true);
       }
