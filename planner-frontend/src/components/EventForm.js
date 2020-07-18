@@ -22,7 +22,8 @@ function EventForm({handleClose, appendItem}){
           if (result.status === 201) {
               console.log(result.status);
               appendItem(result.data);
-              afterPost()
+              attendEvent(result.data);
+              afterPost();
           } else {
             setIsError(true);
           }
@@ -31,6 +32,27 @@ function EventForm({handleClose, appendItem}){
           setIsError(true);
         });
       }
+
+    function attendEvent(session){
+        var sessionAttendeesData = {
+            userId:session.organizer,
+            sessionId:session.id
+        }
+
+        axios.post("https://localhost:44366/api/SessionAttendees",
+        sessionAttendeesData, 
+        ).then(result => {
+          if (result.status === 201) {
+              console.log(result.status);
+
+          } else {
+            setIsError(true);
+          }
+        }).catch(e => {
+            console.log(e);
+          setIsError(true);
+        });
+    }
     
     function afterPost(){
         setIsError(false);
