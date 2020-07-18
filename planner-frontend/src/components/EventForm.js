@@ -8,10 +8,12 @@ function EventForm({handleClose, appendItem}){
     const [isError, setIsError] = useState(false);
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
+    const [dateHeld, setDateHeld] = useState(null);
 
     const data = {
         title:title,
         description:description,
+        dateHeld:dateHeld,
         organizer:parseInt(localStorage.getItem("userID"),10)
     }
 
@@ -58,6 +60,7 @@ function EventForm({handleClose, appendItem}){
         setIsError(false);
         setTitle("");
         setDescription("");
+        setDateHeld(null);
         handleClose();
     }
 
@@ -89,6 +92,20 @@ function EventForm({handleClose, appendItem}){
                             }} 
                             type="textarea" 
                             placeholder="Description"></textarea>
+                    </div>
+                </div>
+
+                <div className="field">
+                    <label className="label">Date and Time</label>
+                    <div className="control">
+                        <input
+                            className="datetime-local" 
+                            value={dateHeld} 
+                            onChange={e => {
+                                setDateHeld(e.target.value);
+                            }} 
+                            type="datetime-local" 
+                            placeholder="Description"></input>
                     </div>
                 </div>
 
