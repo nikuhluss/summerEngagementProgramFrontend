@@ -7,11 +7,11 @@ function EventCard ({error, isLoaded, item, i}){
     
     
 
-    //function getAppointmentTime(dateTime){
-        //date = new Date(dateTime);
-        //correctDate = new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(date);
-        //return correctDate;
-    //}  
+    function getAppointmentTime(dateTime){
+        var date = new Date(dateTime);
+        var correctDate = new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit'}).format(date);
+        return correctDate;
+    }  
     console.log(item.id);
     if (error) {
     return <div>Error: {error.message}</div>;
@@ -35,7 +35,9 @@ function EventCard ({error, isLoaded, item, i}){
                     <div className="content">
                     {item.description}
                     <br />
-            <time dateTime="2016-1-1">{item.dateHeld}</time>
+                        <time dateTime="2016-1-1">
+                            {getAppointmentTime(new Date(item.dateHeld))}
+                        </time>
                     </div>
                 </div>
                 <footer className="card-footer">
