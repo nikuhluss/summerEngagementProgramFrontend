@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from 'axios';
 import ReactDOM from "react-dom";
 import { Button, Nav, Hero, Container, Title, SubTitle, Level, Image } from 'reactbulma';
 import { Redirect, NavLink } from "react-router-dom";
@@ -10,6 +11,28 @@ import EventForm from "../components/EventForm";
 
 function Home(props) {
   const [eventModalState, setEventModal] = useState(false);
+  const [error, setError] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    axios.get("https://localhost:44366/api/Sessions", 
+    )
+    .then(result => {
+    if (result.status === 200) {
+        setIsLoaded(true);
+        console.log(result.data);
+        setItems(result.data);
+    } else {
+        setError(true);
+    }
+    }).catch(e => {
+        console.log(e);
+        setIsLoaded(true);
+        setError(true);
+    });
+  }, [])
+
 
   const showEventModal = () =>{
     setEventModal(true);
@@ -17,6 +40,10 @@ function Home(props) {
 
   const hideEventModal = () =>{
     setEventModal(false);
+  }
+
+  const appendItem = (newEvent) =>{
+    setItems([...items, newEvent]);
   }
 
   return (
@@ -40,12 +67,19 @@ function Home(props) {
             </div>
           </div>
         </div>
-        
-          <EventCard/>
+        <div className="column is-two-thirds  mt-6 has-text-centered">
+                <h1 className="is-size-2">Currently Offered Events</h1>
+                <div className="has-text-left mt-2">
+                {items.map((item, i) => ( 
+                  <EventCard error={error} isLoaded={isLoaded} item={item} i={i} key={i}/>
+                  ))}
+                </div>
+        </div>
+          
         
       </div>
       <BaseModal show={eventModalState} handleClose={hideEventModal}>
-        <EventForm handleClose={hideEventModal}/>
+        <EventForm handleClose={hideEventModal} appendItem={appendItem}/>
       </BaseModal>
     </div>
   );

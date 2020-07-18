@@ -3,7 +3,7 @@ import { Error } from "./AuthForms";
 import axios from 'axios';
 //import addEvent from "./eventCard";
 
-function EventForm({handleClose}){
+function EventForm({handleClose, appendItem}){
 
     const [isError, setIsError] = useState(false);
     const [title, setTitle] = useState("");
@@ -21,7 +21,7 @@ function EventForm({handleClose}){
         ).then(result => {
           if (result.status === 201) {
               console.log(result.status);
-              //addEvent(result.data);
+              appendItem(result.data);
               afterPost()
           } else {
             setIsError(true);
