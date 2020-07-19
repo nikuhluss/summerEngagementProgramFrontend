@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-
+import EventCardFooter from "./EventCardFooter";
 import AttendingTag from "./AttendingTag";
 
 
@@ -40,9 +40,7 @@ function EventCard ({error, isLoaded, item, i}){
                         </time>
                     </div>
                 </div>
-                <footer className="card-footer">
-                    <a href="#" className="card-footer-item">Attend</a>
-                </footer>
+                <EventCardFooter eventID={item.id}/>
             </div>
         );
     }
