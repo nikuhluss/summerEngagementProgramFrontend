@@ -5,7 +5,6 @@ function EventCardFooter(props){
 
     const eventID = props.eventID;
     const userID = localStorage.getItem("userID");
-    const [attending, setAttending] = useState(false);
     const [error, setError] = useState(null);
 
     function VerifyAttending(){
@@ -14,31 +13,118 @@ function EventCardFooter(props){
         )
         .then(result => {
         if (result.status === 200) {
-            setAttending(true);
+            props.setIsAttending();
         } else {
             setError(true);
+            props.setNotAttending();
         }
         }).catch(e => {
             setError(true);
+            props.setNotAttending();
+        });
+    }
+
+    function verifyOwner(){
+        const url = "https://localhost:44366/api/Sessions/"+eventID;
+        axios.get(url,
+        )
+        .then(result => {
+        if (result.status === 200) {
+            if(result.data.organizer == userID){
+                props.setIsOwner();
+            }
+            else{
+                props.setNotOwner();
+            }
+        } else {
+            setError(true);
+            props.setNotAttending();
+        }
+        }).catch(e => {
+            setError(true);
+            props.setNotAttending();
+        });
+    }
+
+    function cancelAttendance(){
+        const url = "https://localhost:44366/api/SessionAttendees/"+userID+"/"+eventID;
+        axios.delete(url,
+        )
+        .then(result => {
+        if (result.status === 200) {
+            props.setNotAttending();
+        } else {
+            
+        }
+        }).catch(e => {
+            
+        });
+    }
+
+    function attendEvent(){
+        const url = "https://localhost:44366/api/SessionAttendees";
+        var data = {
+            userId:userID,
+            sessionId:eventID
+        }
+        axios.post(url,data
+        )
+        .then(result => {
+        if (result.status === 201) {
+            props.setIsAttending();
+        } else {
+            setError(true);
+            props.setNotAttending();
+        }
+        }).catch(e => {
+            setError(true);
+            props.setNotAttending();
+        });
+    }
+
+    function cancelEvent(){
+        const url = "https://localhost:44366/api/Sessions/"+eventID;
+        axios.delete(url,
+        )
+        .then(result => {
+        if (result.status === 200) {
+            props.setNotAttending();
+        } else {
+            setError(true);
+            props.setIsAttending();
+        }
+        }).catch(e => {
+            setError(true);
+            props.setIsAttending();
         });
     }
 
     VerifyAttending();
-    if(attending == true){
-        return (
-            <footer className="card-footer has-background-danger-light">
-                <a href="#" className="card-footer-item  has-text-danger">Delete</a>
-            </footer>
-        );
+    verifyOwner();
+    if(props.attending == true){
+        if(props.owner == true){
+            return (
+                <footer className="card-footer">
+                    <button className="card-footer-item button is-danger is-outlined" onClick={cancelEvent}>Cancel Event</button>
+                </footer>
+            );
+        }
+        else{
+            return (
+                <footer className="card-footer">
+                    <button className="card-footer-item button is-warning is-outlined" onClick={cancelAttendance}>Cancel Attendance</button>
+                </footer>
+            );
+        }
     }
-    else{
+    else if(props.attending == false){
         return (
             <footer className="card-footer">
-                <a href="#" className="card-footer-item">Attend</a>
+                <button className="card-footer-item button is-info is-outlined" onClick={attendEvent}>Attend</button>
             </footer>
         );
     }
-    
+    return null;
 }
 
 export default EventCardFooter;

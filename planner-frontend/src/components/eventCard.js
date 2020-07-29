@@ -5,7 +5,26 @@ import AttendingTag from "./AttendingTag";
 
 function EventCard ({error, isLoaded, item, i}){
     
-    
+    const [attending, setAttending] = useState(null);
+    const [owner, setOwner] = useState(null);
+
+    const setIsAttending = () =>{
+        setAttending(true);
+        console.log("Yessiiiir");
+    }
+
+    const setNotAttending = () =>{
+        setAttending(false);
+        console.log("No ssiiiir");
+    }
+
+    const setIsOwner = () =>{
+        setOwner(true);
+    }
+
+    const setNotOwner = () =>{
+        setOwner(false);
+    }
 
     function getAppointmentTime(dateTime){
         var date = new Date(dateTime);
@@ -17,13 +36,15 @@ function EventCard ({error, isLoaded, item, i}){
     return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
     return <div>Loading...</div>;
+    } else if(owner == true && attending == false){
+        return null;
     }else{
         return(        
             <div key={i} className="card mb-4">
                 <header className="card-header">
                     <p className="card-header-title">
                     {item.title} 
-                    <AttendingTag eventID={item.id}/>
+                    <AttendingTag eventID={item.id} attending={attending}/>
                     </p>
                     <a href="#" className="card-header-icon" aria-label="more options">
                     <span className="icon">
@@ -40,7 +61,15 @@ function EventCard ({error, isLoaded, item, i}){
                         </time>
                     </div>
                 </div>
-                <EventCardFooter eventID={item.id}/>
+                <EventCardFooter 
+                    eventID={item.id} 
+                    setIsAttending={setIsAttending} 
+                    setNotAttending={setNotAttending} 
+                    attending={attending} 
+                    setIsOwner={setIsOwner} 
+                    setNotOwner={setNotOwner}
+                    owner={owner}
+                />
             </div>
         );
     }
