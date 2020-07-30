@@ -51,7 +51,7 @@ function Login(props) {
   }
 
   if (isLoggedIn) {
-    return <Redirect to="/" />;
+    return <Redirect to="/home" />;
   }
 
   return (

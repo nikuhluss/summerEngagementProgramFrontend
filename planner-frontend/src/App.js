@@ -22,8 +22,8 @@ function App(props) {
 
         <Router>
           <div>
-            <Route exact path="/" component={Home} />
-            <Route path="/login" component={Login} />
+            <PrivateRoute exact path="/home" component={Home} />
+            <Route exact path="/" component={Login} />
             <Route path="/signup" component={Signup} />
             <PrivateRoute path="/admin" component={Admin}/>
           </div>
