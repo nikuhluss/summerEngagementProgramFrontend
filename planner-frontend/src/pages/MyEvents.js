@@ -9,20 +9,22 @@ import BaseModal from "../components/BaseModal";
 import EventForm from "../components/EventForm";
 
 
-function Home(props) {
+
+function MyEvents(props) {
   const [eventModalState, setEventModal] = useState(false);
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    axios.get("https://localhost:44366/api/Sessions", 
+    axios.get("https://localhost:44366/api/Users/getUsers/"+localStorage.getItem("userID"), 
     )
     .then(result => {
     if (result.status === 200) {
         setIsLoaded(true);
         console.log(result.data);
-        setItems(result.data);
+        setItems(setSessionArray(result.data.sessionAttendees));
+        console.log(items);
     } else {
         setError(true);
     }
@@ -33,6 +35,13 @@ function Home(props) {
     });
   }, [])
 
+  const setSessionArray = (sessions) =>{
+    var array = [];
+    for(var i = 0;i<sessions.length;i++){
+      array.push(sessions[i].session);
+    }
+    return array
+  }
 
   const showEventModal = () =>{
     setEventModal(true);
@@ -44,6 +53,17 @@ function Home(props) {
 
   const appendItem = (newEvent) =>{
     setItems([...items, newEvent]);
+  }
+
+  let itemsToRender;
+  if(items){
+    itemsToRender = items.map((item, i) => ( 
+      <EventCard error={error} isLoaded={isLoaded} item={item} i={i} key={i}/>
+      ));
+
+    
+  } else{
+    itemsToRender = "Loading...";
   }
 
   return (
@@ -66,13 +86,9 @@ function Home(props) {
         <div className="column is-two-thirds  mt-6 has-text-centered">
                 <h1 className="is-size-2">Currently Offered Events</h1>
                 <div className="has-text-left mt-2">
-                {items.map((item, i) => ( 
-                  <EventCard error={error} isLoaded={isLoaded} item={item} i={i} key={i}/>
-                  ))}
+                {itemsToRender}
                 </div>
-        </div>
-          
-        
+        </div>  
       </div>
       <BaseModal show={eventModalState} handleClose={hideEventModal}>
         <EventForm handleClose={hideEventModal} appendItem={appendItem}/>
@@ -83,4 +99,4 @@ function Home(props) {
 
 
 
-export default Home;
+export default MyEvents;

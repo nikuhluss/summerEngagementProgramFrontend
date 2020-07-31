@@ -23,7 +23,7 @@ function PlannerNavBar(){
           </div>
           <div className="navbar-menu">
             <div className="navbar-start">
-              <NavLink to="/" className="navbar-item">
+              <NavLink to="/home" className="navbar-item">
                 Home
               </NavLink>
               <div className="navbar-item has-dropdown is-hoverable">
@@ -31,8 +31,8 @@ function PlannerNavBar(){
                   Events
                 </a>
                 <div className="navbar-dropdown">
-                  <NavLink to="/events/userid" className="navbar-item">
-                    Your Events
+                  <NavLink to="events/myevents" className="navbar-item">
+                    My Events
                   </NavLink>
                   <NavLink to="/events/explore" className="navbar-item">
                     Explore Events
