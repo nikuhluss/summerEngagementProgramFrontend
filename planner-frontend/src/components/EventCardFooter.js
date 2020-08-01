@@ -99,6 +99,43 @@ function EventCardFooter(props){
         });
     }
 
+    function modifyEvent(){
+        const url = "https://localhost:44366/api/Sessions/"+eventID;
+        var data = {
+            userId:userID,
+            sessionId:eventID
+        }
+        axios.post(url,data
+        )
+        .then(result => {
+        if (result.status === 201) {
+            props.setIsAttending();
+        } else {
+            setError(true);
+            props.setNotAttending();
+        }
+        }).catch(e => {
+            setError(true);
+            props.setNotAttending();
+        });
+    }
+
+    function getEvent(){
+        axios.get("https://localhost:44366/api/Sessions/"+eventID
+            )
+            .then(result => {
+            if (result.status === 200) {
+                props.setSessionToModify(result.data);
+            } else {
+                setError(true);
+                
+            }
+            }).catch(e => {
+                setError(true);
+                
+            });
+    }
+
     VerifyAttending();
     verifyOwner();
     if(props.attending == true){
@@ -106,6 +143,7 @@ function EventCardFooter(props){
             return (
                 <footer className="card-footer">
                     <button className="card-footer-item button is-danger is-outlined" onClick={cancelEvent}>Cancel Event</button>
+                    <button className="card-footer-item button is-primary is-light" onClick={function(){props.showModifyEvent(); getEvent();}}>Modify Event</button>
                 </footer>
             );
         }

@@ -7,13 +7,16 @@ import PlannerNavBar from "../components/navbar";
 import EventCard from "../components/eventCard";
 import BaseModal from "../components/BaseModal";
 import EventForm from "../components/EventForm";
+import ModifyEventForm from "../components/ModifyEventForm";
 
 
 function Home(props) {
   const [eventModalState, setEventModal] = useState(false);
+  const [modifyEvent, setModifyEvent] = useState(false);
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
+  const [eventToModify, setEventToModify] = useState(null);
 
   useEffect(() => {
     axios.get("https://localhost:44366/api/Sessions", 
@@ -33,6 +36,9 @@ function Home(props) {
     });
   }, [])
 
+  const setSessionToModify = (session) =>{
+    setEventToModify(session);
+  }
 
   const showEventModal = () =>{
     setEventModal(true);
@@ -40,6 +46,15 @@ function Home(props) {
 
   const hideEventModal = () =>{
     setEventModal(false);
+  }
+
+  const showModifyEvent = () =>{
+    setModifyEvent(true);
+  }
+
+  const hideModifyEvent  = () =>{
+    setModifyEvent(false);
+    setEventToModify(null);
   }
 
   const appendItem = (newEvent) =>{
@@ -67,7 +82,15 @@ function Home(props) {
                 <h1 className="is-size-2">Currently Offered Events</h1>
                 <div className="has-text-left mt-2">
                 {items.map((item, i) => ( 
-                  <EventCard error={error} isLoaded={isLoaded} item={item} i={i} key={i}/>
+                  <EventCard 
+                    error={error} 
+                    isLoaded={isLoaded} 
+                    item={item} 
+                    i={i} 
+                    key={i}
+                    showModifyEvent={showModifyEvent}
+                    setSessionToModify={setSessionToModify}
+                  />
                   ))}
                 </div>
         </div>
@@ -76,6 +99,9 @@ function Home(props) {
       </div>
       <BaseModal show={eventModalState} handleClose={hideEventModal}>
         <EventForm handleClose={hideEventModal} appendItem={appendItem}/>
+      </BaseModal>
+      <BaseModal show={modifyEvent} handleClose={hideModifyEvent}>
+        <ModifyEventForm handleClose={hideModifyEvent} eventToModify={eventToModify}/>
       </BaseModal>
     </div>
   );

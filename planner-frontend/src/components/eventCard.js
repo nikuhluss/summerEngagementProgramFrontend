@@ -3,7 +3,7 @@ import EventCardFooter from "./EventCardFooter";
 import AttendingTag from "./AttendingTag";
 
 
-function EventCard ({error, isLoaded, item, i}){
+function EventCard ({error, isLoaded, item, i, showModifyEvent, setSessionToModify}){
     
     const [attending, setAttending] = useState(null);
     const [owner, setOwner] = useState(null);
@@ -69,6 +69,8 @@ function EventCard ({error, isLoaded, item, i}){
                     setIsOwner={setIsOwner} 
                     setNotOwner={setNotOwner}
                     owner={owner}
+                    showModifyEvent={showModifyEvent}
+                    setSessionToModify={setSessionToModify}
                 />
             </div>
         );
